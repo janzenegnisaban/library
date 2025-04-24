@@ -15,4 +15,55 @@ model User {
   mobile    String
   password  String
   createdAt DateTime @default(now())
+  borrowedBooks BorrowedBook[]
+  overdueBooks  OverdueBook[]
+  returnHistories ReturnHistory[]
+  // Removed duplicate field definition
+}
+
+model Book {
+  id          Int      @id @default(autoincrement())
+  title       String
+  author      String
+  isbn        String   @unique
+  category    String
+  addedAt     DateTime @default(now())
+  donatedBy   String?  // Optional field for donated books
+  donatedAt   DateTime? // Optional field for donated books
+  borrowedBooks BorrowedBook[]
+  returnHistories ReturnHistory[]
+  overdueBooks    OverdueBook[]
+}
+
+model BorrowedBook {
+  id          Int      @id @default(autoincrement())
+  bookId      Int
+  userId      Int
+  borrowedAt  DateTime @default(now())
+  dueDate     DateTime
+  returnedAt  DateTime?
+  isOverdue   Boolean  @default(false)
+
+  book        Book     @relation(fields: [bookId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model ReturnHistory {
+  id          Int      @id @default(autoincrement())
+  bookId      Int
+  userId      Int
+  returnedAt  DateTime @default(now())
+
+  book        Book     @relation(fields: [bookId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model OverdueBook {
+  id          Int      @id @default(autoincrement())
+  bookId      Int
+  userId      Int
+  overdueAt   DateTime @default(now())
+
+  book        Book     @relation(fields: [bookId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 }
