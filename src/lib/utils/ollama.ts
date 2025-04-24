@@ -1,6 +1,6 @@
 export async function chatWithOllama(model: string, messages: Array<{ role: string; content: string }>) {
     try {
-        const response = await fetch("http://localhost:11434/api/chat", {
+        const response = await fetch("http://127.0.0.1:11434/api/chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -12,15 +12,40 @@ export async function chatWithOllama(model: string, messages: Array<{ role: stri
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
+            const rawError = await response.text(); // Log raw response
+            console.error("Ollama API Raw Error Response:", rawError);
+
+            let errorData;
+            try {
+                errorData = JSON.parse(rawError); // Attempt to parse JSON
+            } catch (jsonError) {
+                console.error("Failed to parse error response as JSON:", jsonError);
+                throw new Error("Failed to communicate with Ollama server.");
+            }
             console.error("Ollama API Error:", errorData);
             throw new Error(errorData.error || "Failed to communicate with Ollama server.");
         }
 
-        const data = await response.json();
+        const rawData = await response.text(); // Log raw response
+        console.log("Ollama API Raw Response:", rawData);
+
+        let data;
+        try {
+            data = JSON.parse(rawData); // Attempt to parse JSON
+        } catch (jsonError) {
+            console.error("Failed to parse response as JSON:", jsonError);
+            throw new Error("Invalid JSON response from Ollama server.");
+        }
+
         return data;
-    } catch (error) {
+    } catch (error: any) {
         console.error("Ollama Error:", error);
+
+        // Handle specific network errors like ECONNREFUSED
+        if (error.code === "ECONNREFUSED") {
+            console.error("Unable to connect to Ollama server. Ensure it is running on http://localhost:11434.");
+        }
+
         // Fallback response
         return {
             choices: [

@@ -13,8 +13,29 @@ export const POST: RequestHandler = async ({ request }) => {
             return json({ error: "Chat message is required!" }, { status: 400 });
         }
 
-        let borrowedBooks = [];
-        let donatedBooks = [];
+        interface BorrowedBook {
+            id: number;
+            book: {
+            title: string;
+            author: string;
+            };
+            user: {
+            username: string;
+            };
+            borrowedAt: Date;
+            dueDate: Date;
+        }
+
+        interface DonatedBook {
+            id: number;
+            title: string;
+            author: string;
+            donatedBy: string | null;
+            donatedAt: Date | null;
+        }
+
+        let borrowedBooks: BorrowedBook[] = [];
+        let donatedBooks: DonatedBook[] = [];
 
         try {
             // Attempt to fetch borrowed books from the database
@@ -36,6 +57,7 @@ export const POST: RequestHandler = async ({ request }) => {
                     dueDate: true,
                 },
             });
+            
 
             // Attempt to fetch donated books from the database
             donatedBooks = await prisma.book.findMany({
@@ -58,7 +80,7 @@ export const POST: RequestHandler = async ({ request }) => {
             borrowedBooks = [];
             donatedBooks = [];
         }
-
+        
         // Send the query to Ollama with context from the database (or fallback data)
         let chatResponse;
         try {

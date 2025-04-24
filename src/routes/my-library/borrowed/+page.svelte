@@ -307,7 +307,8 @@
             </button>
           </div>
         </div>
-    </div>
+      </div>
+    {/if}
   {/if}
   
   {#if showHistoryModal}
