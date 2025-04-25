@@ -2,90 +2,20 @@
     import { onMount } from 'svelte';
     import Navbar from '$lib/navbar.svelte';
 
-    // Dashboard statistics
-    const stats = {
-        users: 1692,
-        books: 35572,
-        borrowed: 57,
-        overdue: 12
+    // Dashboard statistics and chart data
+    let stats = {
+        users: 0,
+        books: 0,
+        borrowed: 0,
+        overdue: 0,
     };
 
-    // Calendar data
-    let currentMonth = new Date();
-    let selectedDate: number | null = null;
-    let todayDate: number;
-
-    // Get Philippine timezone date
-    function getPhilippineDate(): Date {
-        const options = { timeZone: 'Asia/Manila' };
-        return new Date(new Date().toLocaleString('en-US', options));
+    interface ChartDataItem {
+        category: string;
+        percentage: number;
     }
 
-    // Initialize calendar
-    function initializeCalendar(): void {
-        const philippineDate = getPhilippineDate();
-        currentMonth = new Date(philippineDate.getFullYear(), philippineDate.getMonth(), 1);
-        todayDate = philippineDate.getDate();
-        selectedDate = todayDate;
-        updateCalendarDays();
-    }
-
-    // Generate days for the current month
-    function getDaysInMonth(year: number, month: number): number {
-        return new Date(year, month + 1, 0).getDate();
-    }
-
-    function getFirstDayOfMonth(year: number, month: number): number {
-        return new Date(year, month, 1).getDay();
-    }
-
-    let daysInMonth: number;
-    let firstDay: number;
-    let days: number[];
-
-    function updateCalendarDays(): void {
-        daysInMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth());
-        firstDay = getFirstDayOfMonth(currentMonth.getFullYear(), currentMonth.getMonth());
-        days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    }
-
-    function formatMonthYear(date: Date): string {
-        return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'Asia/Manila' });
-    }
-
-    function goToPreviousMonth(): void {
-        currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
-        updateCalendarDays();
-    }
-
-    function goToNextMonth(): void {
-        currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
-        updateCalendarDays();
-    }
-
-    function selectDate(day: number): void {
-        selectedDate = day;
-    }
-
-    function isToday(day: number): boolean {
-        const today = getPhilippineDate();
-        return day === today.getDate() &&
-            currentMonth.getMonth() === today.getMonth() &&
-            currentMonth.getFullYear() === today.getFullYear();
-    }
-
-    // Chart data
-    let chartData = [
-        { category: 'General', percentage: 37 },
-        { category: 'Fiction', percentage: 28.9 },
-        { category: 'Archives', percentage: 14.9 },
-        { category: 'Reference', percentage: 8.2 },
-        { category: 'Periodicals', percentage: 7.4 },
-        { category: 'Filipiniana', percentage: 3.3 },
-        { category: 'Thesis', percentage: 3.7 }
-    ];
-
-    // Colors for the chart
+    let chartData: ChartDataItem[] = [];
     const colors = [
         '#67e8f9', // Cyan
         '#8b5cf6', // Purple
@@ -93,8 +23,24 @@
         '#10b981', // Green
         '#a3a3a3', // Light Gray
         '#f59e0b', // Amber
-        '#3b82f6'  // Blue
+        '#3b82f6', // Blue
     ];
+
+    // Fetch dashboard data from the API
+    async function fetchDashboardData() {
+        try {
+            const response = await fetch('/api/dashboard');
+            if (!response.ok) {
+                throw new Error('Failed to fetch dashboard data');
+            }
+            const data = await response.json();
+            stats = data.stats;
+            chartData = data.chartData;
+            drawChart();
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+        }
+    }
 
     // Draw the pie chart
     function drawChart(): void {
@@ -140,7 +86,7 @@
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(`${item.category}`, labelX, labelY);
-            ctx.fillText(`${item.percentage}%`, labelX, labelY + 15);
+            ctx.fillText(`${item.percentage.toFixed(1)}%`, labelX, labelY + 15);
 
             startAngle = endAngle;
         });
@@ -153,20 +99,7 @@
     }
 
     onMount(() => {
-        initializeCalendar();
-        drawChart();
-
-        // Update the calendar every minute to ensure date is current
-        const timer = setInterval(() => {
-            const philippineDate = getPhilippineDate();
-            if (philippineDate.getDate() !== todayDate) {
-                initializeCalendar();
-            }
-        }, 60000);
-
-        return () => {
-            clearInterval(timer);
-        };
+        fetchDashboardData();
     });
 </script>
 
@@ -209,48 +142,14 @@
 
         <!-- Analytics Section -->
         <div class="dashboard-grid">
-            <div class="calendar-section">
-                <h3 class="section-title">Calendar</h3>
-                <div class="calendar">
-                    <div class="calendar-header">
-                        <button class="calendar-nav" on:click={goToPreviousMonth}>←</button>
-                        <div class="current-month">{formatMonthYear(currentMonth)}</div>
-                        <button class="calendar-nav" on:click={goToNextMonth}>→</button>
-                    </div>
-                    <div class="weekdays">
-                        <div class="weekday sun">SUN</div>
-                        <div class="weekday">MON</div>
-                        <div class="weekday">TUE</div>
-                        <div class="weekday">WED</div>
-                        <div class="weekday">THU</div>
-                        <div class="weekday">FRI</div>
-                        <div class="weekday sat">SAT</div>
-                    </div>
-                    <div class="days">
-                        {#each Array(firstDay) as _, i}
-                            <div class="day empty"></div>
-                        {/each}
-                        {#each days as day}
-                            <button
-                                type="button"
-                                class="day {selectedDate === day ? 'selected' : ''} {isToday(day) ? 'today' : ''}"
-                                on:click={() => selectDate(day)}
-                                aria-pressed={selectedDate === day}
-                            >
-                                {day}
-                            </button>
-                        {/each}
-                    </div>
-                </div>
-            </div>
-
             <div class="chart-section">
                 <h3 class="section-title">Category Distribution</h3>
-                <canvas id="pieChart" width="400" height="400"></canvas>
+                <canvas id="pieChart" width="500" height="450"></canvas>
             </div>
         </div>
     </main>
 </div>
+
 
 <style>
     .dashboard-container {
@@ -308,12 +207,17 @@
         gap: 20px;
     }
 
-    .calendar-section,
     .chart-section {
         background-color: #fff;
         border-radius: 8px;
         padding: 20px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .section-title {
@@ -322,56 +226,5 @@
         margin-bottom: 10px;
     }
 
-    .calendar {
-        text-align: center;
-    }
-
-    .calendar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .calendar-nav {
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .current-month {
-        font-weight: bold;
-    }
-
-    .weekdays {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .days {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-    }
-
-    .day {
-        padding: 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        text-align: center;
-    }
-
-    .day.selected {
-        background-color: #3b82f6;
-        color: #fff;
-    }
-
-    .day.today {
-        font-weight: bold;
-        color: #3b82f6;
-    }
+    
 </style>

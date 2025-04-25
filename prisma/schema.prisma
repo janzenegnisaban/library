@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -8,30 +9,33 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  email         String          @unique
-  username      String
-  mobile        String
-  password      String
-  createdAt     DateTime        @default(now())
-  borrowedBooks BorrowedBook[]
-  overdueBooks  OverdueBook[]
+  id              Int             @id @default(autoincrement())
+  email           String          @unique
+  username        String
+  mobile          String
+  password        String
+  createdAt       DateTime        @default(now())
+  borrowedBooks   BorrowedBook[]
+  overdueBooks    OverdueBook[]
   returnHistories ReturnHistory[]
 }
 
 model Book {
-  id            Int             @id @default(autoincrement())
-  title         String
-  author        String
-  isbn          String          @unique
-  category      String
-  addedAt       DateTime        @default(now())
-  donatedBy     String?
-  donatedAt     DateTime?
-  borrowedBooks BorrowedBook[]
-  overdueBooks  OverdueBook[]
+  id              Int             @id @default(autoincrement())
+  title           String
+  author          String
+  isbn            String          @unique
+  category        String
+  addedAt         DateTime        @default(now())
+  donatedBy       String?
+  donatedAt       DateTime?
+  coverImage      String?
+  description     String
+  quantity        Int
+  borrowedBooks   BorrowedBook[]
+  donatedBooks    DonatedBook[]
+  overdueBooks    OverdueBook[]
   returnHistories ReturnHistory[]
-  donatedBooks  DonatedBook[]
 }
 
 model BorrowedBook {
@@ -65,9 +69,16 @@ model ReturnHistory {
 }
 
 model DonatedBook {
-  id         Int      @id @default(autoincrement())
-  bookId     Int
-  donatedBy  String
-  donatedAt  DateTime @default(now())
-  book       Book     @relation(fields: [bookId], references: [id])
+  id        Int      @id @default(autoincrement())
+  bookId    Int
+  donatedBy String
+  donatedAt DateTime @default(now())
+  book      Book     @relation(fields: [bookId], references: [id])
+}
+
+model Query {
+  id                Int      @id @default(autoincrement())
+  userQuery         String
+  assistantResponse String
+  createdAt         DateTime @default(now())
 }

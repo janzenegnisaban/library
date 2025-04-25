@@ -1,76 +1,85 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import Navbar from '$lib/navbar.svelte';
+  import { onMount } from 'svelte';
+  import Navbar from '$lib/navbar.svelte';
+  import MarkdownIt from 'markdown-it';
 
-    // Define types for chat messages
-    interface ChatMessage {
-        role: 'user' | 'assistant';
-        content: string;
-    }
+  // Define types for chat messages
+  interface ChatMessage {
+      role: 'user' | 'assistant';
+      content: string;
+  }
 
-    let userInput = '';
-    let chatHistory: ChatMessage[] = [];
-    let isLoading = false;
+  let userInput = '';
+  let chatHistory: ChatMessage[] = [];
+  let isLoading = false;
+  const md = new MarkdownIt(); // Markdown parser
 
-    // Function to handle chat submission
-    async function handleSubmit(): Promise<void> {
-        if (!userInput.trim()) return;
+  // Initialize recentQueries
+  let recentQueries: { userQuery: string }[] = [
+      { userQuery: "Summary of the System Reports?" },
+      { userQuery: "Daily Report?" },
+      { userQuery: "Weekly Report?" }
+  ];
 
-        // Add user message to chat
-        chatHistory = [...chatHistory, { 
-            role: 'user', 
-            content: userInput 
-        }];
+  // Function to handle chat submission
+  async function handleSubmit(): Promise<void> {
+      if (!userInput.trim()) return;
 
-        // Simulate loading state
-        isLoading = true;
+      // Add user message to chat
+      chatHistory = [...chatHistory, { 
+          role: 'user', 
+          content: userInput 
+      }];
 
-        try {
-            // Make API call to the AI assistant server
-            const response = await fetch('/api/ai-assistant', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat: userInput,
-                }),
-            });
+      // Simulate loading state
+      isLoading = true;
 
-            const data = await response.json();
+      try {
+          // Make API call to the AI assistant server
+          const res = await fetch('/api/ai-assistant', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  chat: userInput,
+              }),
+          });
 
-            if (response.ok) {
-                // Add assistant's response to chat
-                chatHistory = [...chatHistory, { 
-                    role: 'assistant', 
-                    content: data.choices?.[0]?.message?.content || 'No response received from the assistant.' 
-                }];
-            } else {
-                // Handle error response
-                chatHistory = [...chatHistory, { 
-                    role: 'assistant', 
-                    content: `Error: ${data.error || 'An error occurred.'}` 
-                }];
-            }
-        } catch (error) {
-            console.error('Error during API call:', error);
-            chatHistory = [...chatHistory, { 
-                role: 'assistant', 
-                content: 'An unexpected error occurred while processing your request.' 
-            }];
-        } finally {
-            isLoading = false;
-            userInput = '';
-        }
-    }
+          const data = await res.json();
 
-    onMount(() => {
-        // Add welcome message
-        chatHistory = [{ 
-            role: 'assistant', 
-            content: 'Hello! I am your AI library assistant. How can I help you today?' 
-        }];
-    });
+          if (res.ok && data.message?.content) {
+              // Add assistant's response to chat
+              chatHistory = [...chatHistory, { 
+                  role: 'assistant', 
+                  content: data.message.content 
+              }];
+          } else {
+              // Handle error response
+              chatHistory = [...chatHistory, { 
+                  role: 'assistant', 
+                  content: `Error: ${data.error || 'An error occurred.'}` 
+              }];
+          }
+      } catch (error) {
+          console.error('Error during API call:', error);
+          chatHistory = [...chatHistory, { 
+              role: 'assistant', 
+              content: 'An unexpected error occurred while processing your request.' 
+          }];
+      } finally {
+          isLoading = false;
+          userInput = '';
+      }
+  }
+
+  onMount(() => {
+      // Add welcome message
+      chatHistory = [{ 
+          role: 'assistant', 
+          content: 'Hello! I am your AI library assistant. How can I help you today?' 
+      }];
+  });
 </script>
 
 <svelte:head>
@@ -97,7 +106,7 @@
                                 {message.role === 'assistant' ? '🤖' : '👤'}
                             </div>
                             <div class="message-content">
-                                {message.content}
+                              {@html md.render(message.content.replace(/^[\s\S]*<\/think>(?![\s\S]*<\/think>)/g, ""))}
                             </div>
                         </div>
                     {/each}
@@ -113,6 +122,7 @@
                         </div>
                     {/if}
                 </div>
+
                 
                 <form class="chat-input" on:submit|preventDefault={handleSubmit}>
                     <input 
@@ -145,10 +155,12 @@
                 </div>
                 
                 <h3>Recent Queries</h3>
-                <ul class="recent-queries">
-                    <li>How do I access online journals?</li>
-                    <li>Where is the science fiction section?</li>
-                    <li>Can I reserve a study room?</li>
+                <ul class="feature-buttons">
+                    {#each recentQueries as query}
+                        <button type="button" class="feature-btn" on:click={() => userInput = query.userQuery}>
+                            {query.userQuery}
+                        </button>
+                    {/each}
                 </ul>
             </div>
         </div>
@@ -365,17 +377,7 @@
       padding: 0;
       margin: 0;
     }
-    
-    .recent-queries li {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    
-    .recent-queries li:hover {
-      color: #3b82f6;
-    }
+  
     
     /* Responsive design */
     @media (max-width: 768px) {

@@ -13,32 +13,12 @@ export const POST: RequestHandler = async ({ request }) => {
             return json({ error: "Chat message is required!" }, { status: 400 });
         }
 
-        interface BorrowedBook {
-            id: number;
-            book: {
-            title: string;
-            author: string;
-            };
-            user: {
-            username: string;
-            };
-            borrowedAt: Date;
-            dueDate: Date;
-        }
-
-        interface DonatedBook {
-            id: number;
-            title: string;
-            author: string;
-            donatedBy: string | null;
-            donatedAt: Date | null;
-        }
-
-        let borrowedBooks: BorrowedBook[] = [];
-        let donatedBooks: DonatedBook[] = [];
+        let borrowedBooks = [];
+        let donatedBooks = [];
+        let overdueBooksCount = 0;
 
         try {
-            // Attempt to fetch borrowed books from the database
+            // Fetch borrowed books from the database
             borrowedBooks = await prisma.borrowedBook.findMany({
                 select: {
                     id: true,
@@ -57,9 +37,14 @@ export const POST: RequestHandler = async ({ request }) => {
                     dueDate: true,
                 },
             });
-            
 
-            // Attempt to fetch donated books from the database
+            // Count overdue books
+            const currentDate = new Date();
+            overdueBooksCount = borrowedBooks.filter(
+                (book) => book.dueDate < currentDate
+            ).length;
+
+            // Fetch donated books from the database
             donatedBooks = await prisma.book.findMany({
                 where: {
                     donatedBy: {
@@ -76,24 +61,26 @@ export const POST: RequestHandler = async ({ request }) => {
             });
         } catch (dbError) {
             console.error("Database fetch error:", dbError);
-            // If database queries fail, fallback to empty arrays
             borrowedBooks = [];
             donatedBooks = [];
         }
-        
-        // Send the query to Ollama with context from the database (or fallback data)
+
+        const totalBorrowedBooks = borrowedBooks.length;
+        const totalDonatedBooks = donatedBooks.length;
+
         let chatResponse;
         try {
             chatResponse = await chatWithOllama("deepseek-r1:7b", [
                 {
                     role: "system",
                     content: `
-                        You are an AI assistant for a library management system.
-                        Here is the library data:
-                        - Borrowed Books: ${JSON.stringify(borrowedBooks)}
-                        - Donated Books: ${JSON.stringify(donatedBooks)}
+                        You are an AI assistant for a library management system. Your role is to generate a summarization report for the system based on the following data:
                         
-                        Respond to the user's query with relevant reports, analytics, or book suggestions.
+                        - Total Borrowed Books: ${totalBorrowedBooks}
+                        - Total Donated Books: ${totalDonatedBooks}
+                        - Overdue Books: ${overdueBooksCount}
+                        
+                        Provide a concise and insightful summary of the library's current status, highlighting key statistics and trends.
                     `,
                 },
                 {
@@ -103,27 +90,17 @@ export const POST: RequestHandler = async ({ request }) => {
             ]);
         } catch (ollamaError) {
             console.error("Ollama Error:", ollamaError);
-            chatResponse = {
-                choices: [
-                    {
-                        message: {
-                            role: "assistant",
-                            content: "I'm sorry, I couldn't process your request at the moment. Please try again later.",
-                        },
-                    },
-                ],
-            };
+            return json({
+                message: {
+                    role: "assistant",
+                    content: "I'm sorry, I couldn't process your request at the moment. Please try again later.",
+                },
+            });
         }
-    
-
 
         return json(chatResponse);
     } catch (error) {
-        if (error instanceof Error) {
-            console.error("AI Assistant API Error:", error.message, error.stack);
-        } else {
-            console.error("AI Assistant API Error:", error);
-        }
+        console.error("AI Assistant API Error:", error);
         return json({
             error: "An unexpected error occurred.",
             details: error instanceof Error ? error.message : "Unknown error",

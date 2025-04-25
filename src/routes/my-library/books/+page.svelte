@@ -105,6 +105,25 @@
         }
     }
 
+     // Fetch books from the backend
+     async function fetchBooks() {
+        try {
+            const response = await fetch('/api/books');
+            if (response.ok) {
+                books = await response.json();
+            } else {
+                console.error('Failed to fetch books:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching books:', error);
+        }
+    }
+
+    // Fetch books on page load
+    onMount(() => {
+        fetchBooks();
+    });
+
     function toggleCategoryModal() {
         showCategoryModal = !showCategoryModal;
     }
@@ -169,31 +188,54 @@
         }
     }
 
-    function confirmAddBook() {
-        // Save the book data to the books array
+    async function confirmAddBook() {
+    if (validateForm()) {
         const newBookEntry = {
-            id: books.length + 1,
             title: newBook.title,
             author: newBook.author,
             isbn: newBook.isbn,
             description: newBook.description,
             category: newBook.category,
             coverImage: imagePreview,
-            quantity: newBook.quantity
+            quantity: newBook.quantity,
         };
-        
-        books = [...books, newBookEntry];
-        console.log('Book added:', newBookEntry);
-        
-        showAddBookConfirmModal = false;
-        toggleAddBookModal();
-        
-        // Show success modal
-        showBookAddedSuccessModal = true;
-        setTimeout(() => {
-            showBookAddedSuccessModal = false;
-        }, 2000);
+
+        console.log('Sending book data to backend:', newBookEntry);
+
+        try {
+            const response = await fetch('/api/books', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newBookEntry),
+            });
+
+            const result = await response.json();
+            console.log('Response from backend:', result);
+
+            if (response.ok && result.success) {
+                books = result.books; // Update the books array with the latest data
+                console.log('Book added successfully:', result.book);
+
+                showAddBookConfirmModal = false;
+                toggleAddBookModal();
+
+                // Show success modal
+                showBookAddedSuccessModal = true;
+                setTimeout(() => {
+                    showBookAddedSuccessModal = false;
+                }, 2000);
+            } else {
+                console.error('Failed to add book:', result.error);
+                alert('Failed to add book. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error adding book:', error);
+            alert('An error occurred while adding the book. Please try again.');
+        }
     }
+}
 
     function confirmEditBook() {
         if (bookToEdit) {
@@ -303,6 +345,7 @@
             reader.readAsDataURL(file);
         }
     }
+    
 </script>
   
 <div class="min-h-screen bg-gray-400">
