@@ -391,9 +391,12 @@
               <p class="text-sm">DESCRIPTION: {book.description.length > 50 ? book.description.substring(0, 50) + '...' : book.description}</p>
               <p class="text-sm">CATEGORY: {book.category}</p>
               <p class="text-sm">QUANTITY: {book.quantity}</p>
-              <p class="text-sm">STATUS: <span class={book.quantity > 0 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                {book.quantity > 0 ? 'Available' : 'Unavailable'}
-              </span></p>
+              <p class="text-sm">S<p class="text-sm">
+                STATUS: 
+                <span class={book.status === 0 ? "text-red-600 font-medium" : "text-green-600 font-medium"}>
+                  {book.status === 0 ? 'Unavailable' : 'Available'}
+                </span>
+              </p>
             </div>
           </div>
           <button on:click={() => toggleEditBookModal(book)} class="text-sm border border-gray-300 px-3 py-1 rounded hover:bg-gray-100">Edit</button>

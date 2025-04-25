@@ -1,7 +1,8 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/client"
+  output   = "./node_modules/@prisma/client" 
 }
+
 
 datasource db {
   provider = "postgresql"
@@ -32,6 +33,7 @@ model Book {
   coverImage      String?
   description     String
   quantity        Int
+  status          String          @default("available")
   borrowedBooks   BorrowedBook[]
   donatedBooks    DonatedBook[]
   overdueBooks    OverdueBook[]
@@ -42,6 +44,7 @@ model BorrowedBook {
   id         Int       @id @default(autoincrement())
   bookId     Int
   userId     Int
+  username   String 
   borrowedAt DateTime  @default(now())
   dueDate    DateTime
   returnedAt DateTime?
@@ -54,6 +57,7 @@ model OverdueBook {
   id        Int      @id @default(autoincrement())
   bookId    Int
   userId    Int
+  username  String  
   overdueAt DateTime @default(now())
   book      Book     @relation(fields: [bookId], references: [id])
   user      User     @relation(fields: [userId], references: [id])

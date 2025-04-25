@@ -179,24 +179,30 @@
     .stat-card {
         flex: 1;
         background-color: #fff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 15px; 
+        padding: 35px; 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         text-align: center;
+        transform: scale(1); 
+        transition: transform 0.2s ease-in-out; 
+    }
+
+    .stat-card:hover {
+        transform: scale(1.05); 
     }
 
     .stat-icon {
-        font-size: 32px;
-        margin-bottom: 10px;
+        font-size: 48px; 
+        margin-bottom: 15px;
     }
 
     .stat-label {
-        font-size: 14px;
+        font-size: 16px; 
         color: #666;
     }
 
     .stat-value {
-        font-size: 24px;
+        font-size: 32px; 
         font-weight: bold;
         color: #333;
     }
@@ -209,9 +215,9 @@
 
     .chart-section {
         background-color: #fff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 35px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         text-align: center;
 
         display: flex;
@@ -225,6 +231,4 @@
         font-weight: bold;
         margin-bottom: 10px;
     }
-
-    
 </style>

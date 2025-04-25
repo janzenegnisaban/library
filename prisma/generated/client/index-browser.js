@@ -137,13 +137,15 @@ exports.Prisma.BookScalarFieldEnum = {
   donatedAt: 'donatedAt',
   coverImage: 'coverImage',
   description: 'description',
-  quantity: 'quantity'
+  quantity: 'quantity',
+  status: 'status'
 };
 
 exports.Prisma.BorrowedBookScalarFieldEnum = {
   id: 'id',
   bookId: 'bookId',
   userId: 'userId',
+  username: 'username',
   borrowedAt: 'borrowedAt',
   dueDate: 'dueDate',
   returnedAt: 'returnedAt',
@@ -154,6 +156,7 @@ exports.Prisma.OverdueBookScalarFieldEnum = {
   id: 'id',
   bookId: 'bookId',
   userId: 'userId',
+  username: 'username',
   overdueAt: 'overdueAt'
 };
 

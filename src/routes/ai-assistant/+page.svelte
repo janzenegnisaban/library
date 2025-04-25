@@ -154,7 +154,7 @@
                     </button>
                 </div>
                 
-                <h3>Recent Queries</h3>
+                <h3>Suggested Queries</h3>
                 <ul class="feature-buttons">
                     {#each recentQueries as query}
                         <button type="button" class="feature-btn" on:click={() => userInput = query.userQuery}>

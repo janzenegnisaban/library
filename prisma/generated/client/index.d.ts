@@ -2728,6 +2728,7 @@ export namespace Prisma {
     coverImage: string | null
     description: string | null
     quantity: number | null
+    status: string | null
   }
 
   export type BookMaxAggregateOutputType = {
@@ -2742,6 +2743,7 @@ export namespace Prisma {
     coverImage: string | null
     description: string | null
     quantity: number | null
+    status: string | null
   }
 
   export type BookCountAggregateOutputType = {
@@ -2756,6 +2758,7 @@ export namespace Prisma {
     coverImage: number
     description: number
     quantity: number
+    status: number
     _all: number
   }
 
@@ -2782,6 +2785,7 @@ export namespace Prisma {
     coverImage?: true
     description?: true
     quantity?: true
+    status?: true
   }
 
   export type BookMaxAggregateInputType = {
@@ -2796,6 +2800,7 @@ export namespace Prisma {
     coverImage?: true
     description?: true
     quantity?: true
+    status?: true
   }
 
   export type BookCountAggregateInputType = {
@@ -2810,6 +2815,7 @@ export namespace Prisma {
     coverImage?: true
     description?: true
     quantity?: true
+    status?: true
     _all?: true
   }
 
@@ -2911,6 +2917,7 @@ export namespace Prisma {
     coverImage: string | null
     description: string
     quantity: number
+    status: string
     _count: BookCountAggregateOutputType | null
     _avg: BookAvgAggregateOutputType | null
     _sum: BookSumAggregateOutputType | null
@@ -2944,6 +2951,7 @@ export namespace Prisma {
     coverImage?: boolean
     description?: boolean
     quantity?: boolean
+    status?: boolean
     borrowedBooks?: boolean | Book$borrowedBooksArgs<ExtArgs>
     donatedBooks?: boolean | Book$donatedBooksArgs<ExtArgs>
     overdueBooks?: boolean | Book$overdueBooksArgs<ExtArgs>
@@ -2963,6 +2971,7 @@ export namespace Prisma {
     coverImage?: boolean
     description?: boolean
     quantity?: boolean
+    status?: boolean
   }, ExtArgs["result"]["book"]>
 
   export type BookSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2977,6 +2986,7 @@ export namespace Prisma {
     coverImage?: boolean
     description?: boolean
     quantity?: boolean
+    status?: boolean
   }, ExtArgs["result"]["book"]>
 
   export type BookSelectScalar = {
@@ -2991,9 +3001,10 @@ export namespace Prisma {
     coverImage?: boolean
     description?: boolean
     quantity?: boolean
+    status?: boolean
   }
 
-  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "isbn" | "category" | "addedAt" | "donatedBy" | "donatedAt" | "coverImage" | "description" | "quantity", ExtArgs["result"]["book"]>
+  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "isbn" | "category" | "addedAt" | "donatedBy" | "donatedAt" | "coverImage" | "description" | "quantity" | "status", ExtArgs["result"]["book"]>
   export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     borrowedBooks?: boolean | Book$borrowedBooksArgs<ExtArgs>
     donatedBooks?: boolean | Book$donatedBooksArgs<ExtArgs>
@@ -3024,6 +3035,7 @@ export namespace Prisma {
       coverImage: string | null
       description: string
       quantity: number
+      status: string
     }, ExtArgs["result"]["book"]>
     composites: {}
   }
@@ -3462,6 +3474,7 @@ export namespace Prisma {
     readonly coverImage: FieldRef<"Book", 'String'>
     readonly description: FieldRef<"Book", 'String'>
     readonly quantity: FieldRef<"Book", 'Int'>
+    readonly status: FieldRef<"Book", 'String'>
   }
     
 
@@ -3992,6 +4005,7 @@ export namespace Prisma {
     id: number | null
     bookId: number | null
     userId: number | null
+    username: string | null
     borrowedAt: Date | null
     dueDate: Date | null
     returnedAt: Date | null
@@ -4002,6 +4016,7 @@ export namespace Prisma {
     id: number | null
     bookId: number | null
     userId: number | null
+    username: string | null
     borrowedAt: Date | null
     dueDate: Date | null
     returnedAt: Date | null
@@ -4012,6 +4027,7 @@ export namespace Prisma {
     id: number
     bookId: number
     userId: number
+    username: number
     borrowedAt: number
     dueDate: number
     returnedAt: number
@@ -4036,6 +4052,7 @@ export namespace Prisma {
     id?: true
     bookId?: true
     userId?: true
+    username?: true
     borrowedAt?: true
     dueDate?: true
     returnedAt?: true
@@ -4046,6 +4063,7 @@ export namespace Prisma {
     id?: true
     bookId?: true
     userId?: true
+    username?: true
     borrowedAt?: true
     dueDate?: true
     returnedAt?: true
@@ -4056,6 +4074,7 @@ export namespace Prisma {
     id?: true
     bookId?: true
     userId?: true
+    username?: true
     borrowedAt?: true
     dueDate?: true
     returnedAt?: true
@@ -4153,6 +4172,7 @@ export namespace Prisma {
     id: number
     bookId: number
     userId: number
+    username: string
     borrowedAt: Date
     dueDate: Date
     returnedAt: Date | null
@@ -4182,6 +4202,7 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     borrowedAt?: boolean
     dueDate?: boolean
     returnedAt?: boolean
@@ -4194,6 +4215,7 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     borrowedAt?: boolean
     dueDate?: boolean
     returnedAt?: boolean
@@ -4206,6 +4228,7 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     borrowedAt?: boolean
     dueDate?: boolean
     returnedAt?: boolean
@@ -4218,13 +4241,14 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     borrowedAt?: boolean
     dueDate?: boolean
     returnedAt?: boolean
     isOverdue?: boolean
   }
 
-  export type BorrowedBookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookId" | "userId" | "borrowedAt" | "dueDate" | "returnedAt" | "isOverdue", ExtArgs["result"]["borrowedBook"]>
+  export type BorrowedBookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookId" | "userId" | "username" | "borrowedAt" | "dueDate" | "returnedAt" | "isOverdue", ExtArgs["result"]["borrowedBook"]>
   export type BorrowedBookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     book?: boolean | BookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4248,6 +4272,7 @@ export namespace Prisma {
       id: number
       bookId: number
       userId: number
+      username: string
       borrowedAt: Date
       dueDate: Date
       returnedAt: Date | null
@@ -4680,6 +4705,7 @@ export namespace Prisma {
     readonly id: FieldRef<"BorrowedBook", 'Int'>
     readonly bookId: FieldRef<"BorrowedBook", 'Int'>
     readonly userId: FieldRef<"BorrowedBook", 'Int'>
+    readonly username: FieldRef<"BorrowedBook", 'String'>
     readonly borrowedAt: FieldRef<"BorrowedBook", 'DateTime'>
     readonly dueDate: FieldRef<"BorrowedBook", 'DateTime'>
     readonly returnedAt: FieldRef<"BorrowedBook", 'DateTime'>
@@ -5126,6 +5152,7 @@ export namespace Prisma {
     id: number | null
     bookId: number | null
     userId: number | null
+    username: string | null
     overdueAt: Date | null
   }
 
@@ -5133,6 +5160,7 @@ export namespace Prisma {
     id: number | null
     bookId: number | null
     userId: number | null
+    username: string | null
     overdueAt: Date | null
   }
 
@@ -5140,6 +5168,7 @@ export namespace Prisma {
     id: number
     bookId: number
     userId: number
+    username: number
     overdueAt: number
     _all: number
   }
@@ -5161,6 +5190,7 @@ export namespace Prisma {
     id?: true
     bookId?: true
     userId?: true
+    username?: true
     overdueAt?: true
   }
 
@@ -5168,6 +5198,7 @@ export namespace Prisma {
     id?: true
     bookId?: true
     userId?: true
+    username?: true
     overdueAt?: true
   }
 
@@ -5175,6 +5206,7 @@ export namespace Prisma {
     id?: true
     bookId?: true
     userId?: true
+    username?: true
     overdueAt?: true
     _all?: true
   }
@@ -5269,6 +5301,7 @@ export namespace Prisma {
     id: number
     bookId: number
     userId: number
+    username: string
     overdueAt: Date
     _count: OverdueBookCountAggregateOutputType | null
     _avg: OverdueBookAvgAggregateOutputType | null
@@ -5295,6 +5328,7 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     overdueAt?: boolean
     book?: boolean | BookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -5304,6 +5338,7 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     overdueAt?: boolean
     book?: boolean | BookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -5313,6 +5348,7 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     overdueAt?: boolean
     book?: boolean | BookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -5322,10 +5358,11 @@ export namespace Prisma {
     id?: boolean
     bookId?: boolean
     userId?: boolean
+    username?: boolean
     overdueAt?: boolean
   }
 
-  export type OverdueBookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookId" | "userId" | "overdueAt", ExtArgs["result"]["overdueBook"]>
+  export type OverdueBookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookId" | "userId" | "username" | "overdueAt", ExtArgs["result"]["overdueBook"]>
   export type OverdueBookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     book?: boolean | BookDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -5349,6 +5386,7 @@ export namespace Prisma {
       id: number
       bookId: number
       userId: number
+      username: string
       overdueAt: Date
     }, ExtArgs["result"]["overdueBook"]>
     composites: {}
@@ -5778,6 +5816,7 @@ export namespace Prisma {
     readonly id: FieldRef<"OverdueBook", 'Int'>
     readonly bookId: FieldRef<"OverdueBook", 'Int'>
     readonly userId: FieldRef<"OverdueBook", 'Int'>
+    readonly username: FieldRef<"OverdueBook", 'String'>
     readonly overdueAt: FieldRef<"OverdueBook", 'DateTime'>
   }
     
@@ -9424,7 +9463,8 @@ export namespace Prisma {
     donatedAt: 'donatedAt',
     coverImage: 'coverImage',
     description: 'description',
-    quantity: 'quantity'
+    quantity: 'quantity',
+    status: 'status'
   };
 
   export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
@@ -9434,6 +9474,7 @@ export namespace Prisma {
     id: 'id',
     bookId: 'bookId',
     userId: 'userId',
+    username: 'username',
     borrowedAt: 'borrowedAt',
     dueDate: 'dueDate',
     returnedAt: 'returnedAt',
@@ -9447,6 +9488,7 @@ export namespace Prisma {
     id: 'id',
     bookId: 'bookId',
     userId: 'userId',
+    username: 'username',
     overdueAt: 'overdueAt'
   };
 
@@ -9661,6 +9703,7 @@ export namespace Prisma {
     coverImage?: StringNullableFilter<"Book"> | string | null
     description?: StringFilter<"Book"> | string
     quantity?: IntFilter<"Book"> | number
+    status?: StringFilter<"Book"> | string
     borrowedBooks?: BorrowedBookListRelationFilter
     donatedBooks?: DonatedBookListRelationFilter
     overdueBooks?: OverdueBookListRelationFilter
@@ -9679,6 +9722,7 @@ export namespace Prisma {
     coverImage?: SortOrderInput | SortOrder
     description?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     borrowedBooks?: BorrowedBookOrderByRelationAggregateInput
     donatedBooks?: DonatedBookOrderByRelationAggregateInput
     overdueBooks?: OverdueBookOrderByRelationAggregateInput
@@ -9700,6 +9744,7 @@ export namespace Prisma {
     coverImage?: StringNullableFilter<"Book"> | string | null
     description?: StringFilter<"Book"> | string
     quantity?: IntFilter<"Book"> | number
+    status?: StringFilter<"Book"> | string
     borrowedBooks?: BorrowedBookListRelationFilter
     donatedBooks?: DonatedBookListRelationFilter
     overdueBooks?: OverdueBookListRelationFilter
@@ -9718,6 +9763,7 @@ export namespace Prisma {
     coverImage?: SortOrderInput | SortOrder
     description?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     _count?: BookCountOrderByAggregateInput
     _avg?: BookAvgOrderByAggregateInput
     _max?: BookMaxOrderByAggregateInput
@@ -9740,6 +9786,7 @@ export namespace Prisma {
     coverImage?: StringNullableWithAggregatesFilter<"Book"> | string | null
     description?: StringWithAggregatesFilter<"Book"> | string
     quantity?: IntWithAggregatesFilter<"Book"> | number
+    status?: StringWithAggregatesFilter<"Book"> | string
   }
 
   export type BorrowedBookWhereInput = {
@@ -9749,6 +9796,7 @@ export namespace Prisma {
     id?: IntFilter<"BorrowedBook"> | number
     bookId?: IntFilter<"BorrowedBook"> | number
     userId?: IntFilter<"BorrowedBook"> | number
+    username?: StringFilter<"BorrowedBook"> | string
     borrowedAt?: DateTimeFilter<"BorrowedBook"> | Date | string
     dueDate?: DateTimeFilter<"BorrowedBook"> | Date | string
     returnedAt?: DateTimeNullableFilter<"BorrowedBook"> | Date | string | null
@@ -9761,6 +9809,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     borrowedAt?: SortOrder
     dueDate?: SortOrder
     returnedAt?: SortOrderInput | SortOrder
@@ -9776,6 +9825,7 @@ export namespace Prisma {
     NOT?: BorrowedBookWhereInput | BorrowedBookWhereInput[]
     bookId?: IntFilter<"BorrowedBook"> | number
     userId?: IntFilter<"BorrowedBook"> | number
+    username?: StringFilter<"BorrowedBook"> | string
     borrowedAt?: DateTimeFilter<"BorrowedBook"> | Date | string
     dueDate?: DateTimeFilter<"BorrowedBook"> | Date | string
     returnedAt?: DateTimeNullableFilter<"BorrowedBook"> | Date | string | null
@@ -9788,6 +9838,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     borrowedAt?: SortOrder
     dueDate?: SortOrder
     returnedAt?: SortOrderInput | SortOrder
@@ -9806,6 +9857,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"BorrowedBook"> | number
     bookId?: IntWithAggregatesFilter<"BorrowedBook"> | number
     userId?: IntWithAggregatesFilter<"BorrowedBook"> | number
+    username?: StringWithAggregatesFilter<"BorrowedBook"> | string
     borrowedAt?: DateTimeWithAggregatesFilter<"BorrowedBook"> | Date | string
     dueDate?: DateTimeWithAggregatesFilter<"BorrowedBook"> | Date | string
     returnedAt?: DateTimeNullableWithAggregatesFilter<"BorrowedBook"> | Date | string | null
@@ -9819,6 +9871,7 @@ export namespace Prisma {
     id?: IntFilter<"OverdueBook"> | number
     bookId?: IntFilter<"OverdueBook"> | number
     userId?: IntFilter<"OverdueBook"> | number
+    username?: StringFilter<"OverdueBook"> | string
     overdueAt?: DateTimeFilter<"OverdueBook"> | Date | string
     book?: XOR<BookScalarRelationFilter, BookWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -9828,6 +9881,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     overdueAt?: SortOrder
     book?: BookOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
@@ -9840,6 +9894,7 @@ export namespace Prisma {
     NOT?: OverdueBookWhereInput | OverdueBookWhereInput[]
     bookId?: IntFilter<"OverdueBook"> | number
     userId?: IntFilter<"OverdueBook"> | number
+    username?: StringFilter<"OverdueBook"> | string
     overdueAt?: DateTimeFilter<"OverdueBook"> | Date | string
     book?: XOR<BookScalarRelationFilter, BookWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -9849,6 +9904,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     overdueAt?: SortOrder
     _count?: OverdueBookCountOrderByAggregateInput
     _avg?: OverdueBookAvgOrderByAggregateInput
@@ -9864,6 +9920,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"OverdueBook"> | number
     bookId?: IntWithAggregatesFilter<"OverdueBook"> | number
     userId?: IntWithAggregatesFilter<"OverdueBook"> | number
+    username?: StringWithAggregatesFilter<"OverdueBook"> | string
     overdueAt?: DateTimeWithAggregatesFilter<"OverdueBook"> | Date | string
   }
 
@@ -10106,6 +10163,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookCreateNestedManyWithoutBookInput
     donatedBooks?: DonatedBookCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookCreateNestedManyWithoutBookInput
@@ -10124,6 +10182,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookUncheckedCreateNestedManyWithoutBookInput
     donatedBooks?: DonatedBookUncheckedCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookUncheckedCreateNestedManyWithoutBookInput
@@ -10141,6 +10200,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUpdateManyWithoutBookNestedInput
     donatedBooks?: DonatedBookUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUpdateManyWithoutBookNestedInput
@@ -10159,6 +10219,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUncheckedUpdateManyWithoutBookNestedInput
     donatedBooks?: DonatedBookUncheckedUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUncheckedUpdateManyWithoutBookNestedInput
@@ -10177,6 +10238,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
   }
 
   export type BookUpdateManyMutationInput = {
@@ -10190,6 +10252,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookUncheckedUpdateManyInput = {
@@ -10204,9 +10267,11 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type BorrowedBookCreateInput = {
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -10219,6 +10284,7 @@ export namespace Prisma {
     id?: number
     bookId: number
     userId: number
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -10226,6 +10292,7 @@ export namespace Prisma {
   }
 
   export type BorrowedBookUpdateInput = {
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10238,6 +10305,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10248,6 +10316,7 @@ export namespace Prisma {
     id?: number
     bookId: number
     userId: number
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -10255,6 +10324,7 @@ export namespace Prisma {
   }
 
   export type BorrowedBookUpdateManyMutationInput = {
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10265,6 +10335,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10272,6 +10343,7 @@ export namespace Prisma {
   }
 
   export type OverdueBookCreateInput = {
+    username: string
     overdueAt?: Date | string
     book: BookCreateNestedOneWithoutOverdueBooksInput
     user: UserCreateNestedOneWithoutOverdueBooksInput
@@ -10281,10 +10353,12 @@ export namespace Prisma {
     id?: number
     bookId: number
     userId: number
+    username: string
     overdueAt?: Date | string
   }
 
   export type OverdueBookUpdateInput = {
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
     book?: BookUpdateOneRequiredWithoutOverdueBooksNestedInput
     user?: UserUpdateOneRequiredWithoutOverdueBooksNestedInput
@@ -10294,6 +10368,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10301,10 +10376,12 @@ export namespace Prisma {
     id?: number
     bookId: number
     userId: number
+    username: string
     overdueAt?: Date | string
   }
 
   export type OverdueBookUpdateManyMutationInput = {
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10312,6 +10389,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10653,6 +10731,7 @@ export namespace Prisma {
     coverImage?: SortOrder
     description?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
   }
 
   export type BookAvgOrderByAggregateInput = {
@@ -10672,6 +10751,7 @@ export namespace Prisma {
     coverImage?: SortOrder
     description?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
   }
 
   export type BookMinOrderByAggregateInput = {
@@ -10686,6 +10766,7 @@ export namespace Prisma {
     coverImage?: SortOrder
     description?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
   }
 
   export type BookSumOrderByAggregateInput = {
@@ -10744,6 +10825,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     borrowedAt?: SortOrder
     dueDate?: SortOrder
     returnedAt?: SortOrder
@@ -10760,6 +10842,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     borrowedAt?: SortOrder
     dueDate?: SortOrder
     returnedAt?: SortOrder
@@ -10770,6 +10853,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     borrowedAt?: SortOrder
     dueDate?: SortOrder
     returnedAt?: SortOrder
@@ -10794,6 +10878,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     overdueAt?: SortOrder
   }
 
@@ -10807,6 +10892,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     overdueAt?: SortOrder
   }
 
@@ -10814,6 +10900,7 @@ export namespace Prisma {
     id?: SortOrder
     bookId?: SortOrder
     userId?: SortOrder
+    username?: SortOrder
     overdueAt?: SortOrder
   }
 
@@ -11511,6 +11598,7 @@ export namespace Prisma {
   }
 
   export type BorrowedBookCreateWithoutUserInput = {
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -11521,6 +11609,7 @@ export namespace Prisma {
   export type BorrowedBookUncheckedCreateWithoutUserInput = {
     id?: number
     bookId: number
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -11538,6 +11627,7 @@ export namespace Prisma {
   }
 
   export type OverdueBookCreateWithoutUserInput = {
+    username: string
     overdueAt?: Date | string
     book: BookCreateNestedOneWithoutOverdueBooksInput
   }
@@ -11545,6 +11635,7 @@ export namespace Prisma {
   export type OverdueBookUncheckedCreateWithoutUserInput = {
     id?: number
     bookId: number
+    username: string
     overdueAt?: Date | string
   }
 
@@ -11602,6 +11693,7 @@ export namespace Prisma {
     id?: IntFilter<"BorrowedBook"> | number
     bookId?: IntFilter<"BorrowedBook"> | number
     userId?: IntFilter<"BorrowedBook"> | number
+    username?: StringFilter<"BorrowedBook"> | string
     borrowedAt?: DateTimeFilter<"BorrowedBook"> | Date | string
     dueDate?: DateTimeFilter<"BorrowedBook"> | Date | string
     returnedAt?: DateTimeNullableFilter<"BorrowedBook"> | Date | string | null
@@ -11631,6 +11723,7 @@ export namespace Prisma {
     id?: IntFilter<"OverdueBook"> | number
     bookId?: IntFilter<"OverdueBook"> | number
     userId?: IntFilter<"OverdueBook"> | number
+    username?: StringFilter<"OverdueBook"> | string
     overdueAt?: DateTimeFilter<"OverdueBook"> | Date | string
   }
 
@@ -11661,6 +11754,7 @@ export namespace Prisma {
   }
 
   export type BorrowedBookCreateWithoutBookInput = {
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -11671,6 +11765,7 @@ export namespace Prisma {
   export type BorrowedBookUncheckedCreateWithoutBookInput = {
     id?: number
     userId: number
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -11709,6 +11804,7 @@ export namespace Prisma {
   }
 
   export type OverdueBookCreateWithoutBookInput = {
+    username: string
     overdueAt?: Date | string
     user: UserCreateNestedOneWithoutOverdueBooksInput
   }
@@ -11716,6 +11812,7 @@ export namespace Prisma {
   export type OverdueBookUncheckedCreateWithoutBookInput = {
     id?: number
     userId: number
+    username: string
     overdueAt?: Date | string
   }
 
@@ -11835,6 +11932,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     donatedBooks?: DonatedBookCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookCreateNestedManyWithoutBookInput
     returnHistories?: ReturnHistoryCreateNestedManyWithoutBookInput
@@ -11852,6 +11950,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     donatedBooks?: DonatedBookUncheckedCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookUncheckedCreateNestedManyWithoutBookInput
     returnHistories?: ReturnHistoryUncheckedCreateNestedManyWithoutBookInput
@@ -11910,6 +12009,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     donatedBooks?: DonatedBookUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUpdateManyWithoutBookNestedInput
     returnHistories?: ReturnHistoryUpdateManyWithoutBookNestedInput
@@ -11927,6 +12027,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     donatedBooks?: DonatedBookUncheckedUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUncheckedUpdateManyWithoutBookNestedInput
     returnHistories?: ReturnHistoryUncheckedUpdateManyWithoutBookNestedInput
@@ -11975,6 +12076,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookCreateNestedManyWithoutBookInput
     donatedBooks?: DonatedBookCreateNestedManyWithoutBookInput
     returnHistories?: ReturnHistoryCreateNestedManyWithoutBookInput
@@ -11992,6 +12094,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookUncheckedCreateNestedManyWithoutBookInput
     donatedBooks?: DonatedBookUncheckedCreateNestedManyWithoutBookInput
     returnHistories?: ReturnHistoryUncheckedCreateNestedManyWithoutBookInput
@@ -12050,6 +12153,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUpdateManyWithoutBookNestedInput
     donatedBooks?: DonatedBookUpdateManyWithoutBookNestedInput
     returnHistories?: ReturnHistoryUpdateManyWithoutBookNestedInput
@@ -12067,6 +12171,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUncheckedUpdateManyWithoutBookNestedInput
     donatedBooks?: DonatedBookUncheckedUpdateManyWithoutBookNestedInput
     returnHistories?: ReturnHistoryUncheckedUpdateManyWithoutBookNestedInput
@@ -12115,6 +12220,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookCreateNestedManyWithoutBookInput
     donatedBooks?: DonatedBookCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookCreateNestedManyWithoutBookInput
@@ -12132,6 +12238,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookUncheckedCreateNestedManyWithoutBookInput
     donatedBooks?: DonatedBookUncheckedCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookUncheckedCreateNestedManyWithoutBookInput
@@ -12190,6 +12297,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUpdateManyWithoutBookNestedInput
     donatedBooks?: DonatedBookUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUpdateManyWithoutBookNestedInput
@@ -12207,6 +12315,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUncheckedUpdateManyWithoutBookNestedInput
     donatedBooks?: DonatedBookUncheckedUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUncheckedUpdateManyWithoutBookNestedInput
@@ -12255,6 +12364,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookCreateNestedManyWithoutBookInput
     returnHistories?: ReturnHistoryCreateNestedManyWithoutBookInput
@@ -12272,6 +12382,7 @@ export namespace Prisma {
     coverImage?: string | null
     description: string
     quantity: number
+    status?: string
     borrowedBooks?: BorrowedBookUncheckedCreateNestedManyWithoutBookInput
     overdueBooks?: OverdueBookUncheckedCreateNestedManyWithoutBookInput
     returnHistories?: ReturnHistoryUncheckedCreateNestedManyWithoutBookInput
@@ -12304,6 +12415,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUpdateManyWithoutBookNestedInput
     returnHistories?: ReturnHistoryUpdateManyWithoutBookNestedInput
@@ -12321,6 +12433,7 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     borrowedBooks?: BorrowedBookUncheckedUpdateManyWithoutBookNestedInput
     overdueBooks?: OverdueBookUncheckedUpdateManyWithoutBookNestedInput
     returnHistories?: ReturnHistoryUncheckedUpdateManyWithoutBookNestedInput
@@ -12329,6 +12442,7 @@ export namespace Prisma {
   export type BorrowedBookCreateManyUserInput = {
     id?: number
     bookId: number
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -12338,6 +12452,7 @@ export namespace Prisma {
   export type OverdueBookCreateManyUserInput = {
     id?: number
     bookId: number
+    username: string
     overdueAt?: Date | string
   }
 
@@ -12348,6 +12463,7 @@ export namespace Prisma {
   }
 
   export type BorrowedBookUpdateWithoutUserInput = {
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12358,6 +12474,7 @@ export namespace Prisma {
   export type BorrowedBookUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12367,6 +12484,7 @@ export namespace Prisma {
   export type BorrowedBookUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12374,6 +12492,7 @@ export namespace Prisma {
   }
 
   export type OverdueBookUpdateWithoutUserInput = {
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
     book?: BookUpdateOneRequiredWithoutOverdueBooksNestedInput
   }
@@ -12381,12 +12500,14 @@ export namespace Prisma {
   export type OverdueBookUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OverdueBookUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     bookId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12410,6 +12531,7 @@ export namespace Prisma {
   export type BorrowedBookCreateManyBookInput = {
     id?: number
     userId: number
+    username: string
     borrowedAt?: Date | string
     dueDate: Date | string
     returnedAt?: Date | string | null
@@ -12425,6 +12547,7 @@ export namespace Prisma {
   export type OverdueBookCreateManyBookInput = {
     id?: number
     userId: number
+    username: string
     overdueAt?: Date | string
   }
 
@@ -12435,6 +12558,7 @@ export namespace Prisma {
   }
 
   export type BorrowedBookUpdateWithoutBookInput = {
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12445,6 +12569,7 @@ export namespace Prisma {
   export type BorrowedBookUncheckedUpdateWithoutBookInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12454,6 +12579,7 @@ export namespace Prisma {
   export type BorrowedBookUncheckedUpdateManyWithoutBookInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     borrowedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12478,6 +12604,7 @@ export namespace Prisma {
   }
 
   export type OverdueBookUpdateWithoutBookInput = {
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOverdueBooksNestedInput
   }
@@ -12485,12 +12612,14 @@ export namespace Prisma {
   export type OverdueBookUncheckedUpdateWithoutBookInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OverdueBookUncheckedUpdateManyWithoutBookInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     overdueAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
