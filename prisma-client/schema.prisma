@@ -32,7 +32,7 @@ model Book {
   coverImage      String?
   description     String
   quantity        Int
-  status          String          @default("available")
+  status          BookStatus      @default(AVAILABLE)
   borrowedBooks   BorrowedBook[]
   donatedBooks    DonatedBook[]
   overdueBooks    OverdueBook[]
@@ -48,8 +48,8 @@ model BorrowedBook {
   dueDate    DateTime
   returnedAt DateTime?
   isOverdue  Boolean   @default(false)
-  book       Book      @relation(fields: [bookId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
+  book       Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model OverdueBook {
@@ -58,8 +58,8 @@ model OverdueBook {
   userId    Int
   username  String
   overdueAt DateTime @default(now())
-  book      Book     @relation(fields: [bookId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ReturnHistory {
@@ -67,8 +67,8 @@ model ReturnHistory {
   bookId     Int
   userId     Int
   returnedAt DateTime @default(now())
-  book       Book     @relation(fields: [bookId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  book       Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model DonatedBook {
@@ -76,7 +76,7 @@ model DonatedBook {
   bookId    Int
   donatedBy String
   donatedAt DateTime @default(now())
-  book      Book     @relation(fields: [bookId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
 }
 
 model Query {
@@ -84,4 +84,11 @@ model Query {
   userQuery         String
   assistantResponse String
   createdAt         DateTime @default(now())
+}
+
+enum BookStatus {
+  AVAILABLE
+  UNAVAILABLE
+  BORROWED
+  RESERVED
 }

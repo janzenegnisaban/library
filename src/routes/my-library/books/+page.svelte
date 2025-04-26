@@ -187,7 +187,27 @@
             showEditBookConfirmModal = true;
         }
     }
+    async function deleteBook(bookId: number) {
+    const confirmDelete = confirm("Are you sure you want to permanently delete this book?");
+    if (confirmDelete) {
+        try {
+            const response = await fetch(`/api/Book/${bookId}`, {
+                method: 'DELETE',
+            });
 
+            if (response.ok) {
+                console.log(`Book with ID ${bookId} deleted successfully.`);
+                books = books.filter(book => book.id !== bookId); // Update the UI
+            } else {
+                console.error('Failed to delete book:', response.statusText);
+                alert('Failed to delete the book. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error deleting book:', error);
+            alert('An error occurred while deleting the book. Please try again.');
+        }
+    }
+}
     async function confirmAddBook() {
     if (validateForm()) {
         const newBookEntry = {
@@ -215,17 +235,10 @@
             console.log('Response from backend:', result);
 
             if (response.ok && result.success) {
-                books = result.books; // Update the books array with the latest data
                 console.log('Book added successfully:', result.book);
 
-                showAddBookConfirmModal = false;
-                toggleAddBookModal();
-
-                // Show success modal
-                showBookAddedSuccessModal = true;
-                setTimeout(() => {
-                    showBookAddedSuccessModal = false;
-                }, 2000);
+                
+                location.reload();
             } else {
                 console.error('Failed to add book:', result.error);
                 alert('Failed to add book. Please try again.');
@@ -273,18 +286,22 @@
     }
 
     // Filter books based on search query
-    $: filteredBooks = searchQuery 
-        ? books.filter(book => 
-            book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            book.category.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-        : books;
-        
-    // Sort books alphabetically by title
-    $: sortedBooks = [...filteredBooks].sort((a, b) => 
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
-    );
+$: filteredBooks = searchQuery
+    ? books.filter(book =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.category.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : books;
+
+// Sort books alphabetically by title (case-insensitive)
+$: sortedBooks = filteredBooks
+    ? [...filteredBooks].sort((a, b) => {
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
+        return titleA.localeCompare(titleB);
+      })
+    : [];
 
     function showAddCategoryConfirm() {
         if (newCategoryName.trim()) {
@@ -345,6 +362,15 @@
             reader.readAsDataURL(file);
         }
     }
+
+    function deleteBookFromUI(bookId: number) {
+    const confirmDelete = confirm("Are you sure you want to delete this book?");
+    if (confirmDelete) {
+        // Remove the book from the local books array
+        books = books.filter(book => book.id !== bookId);
+        console.log(`Book with ID ${bookId} deleted from the UI.`);
+    }
+}
     
 </script>
   
@@ -400,6 +426,7 @@
             </div>
           </div>
           <button on:click={() => toggleEditBookModal(book)} class="text-sm border border-gray-300 px-3 py-1 rounded hover:bg-gray-100">Edit</button>
+          <button on:click={() => deleteBook(book.id)} class="text-sm border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-100">Delete</button>
         </div>
       {/each}
     {:else}
